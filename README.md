@@ -41,6 +41,8 @@ python main.py
 
 It will use the Workplace dataset contained in `data/input`. 
 
+See the demo [jupyter notebook](https://github.com/mcontisc/Hypergraph-MT/blob/main/code/analyse_results.ipynb) for an example on how to analyse the output results, including visualizing the inferred communities.
+
 ### Parameters
 - **-f** : Path of the input folder, *(default='../data/input/')*
 - **-d** : Name of the dataset to analyse, *(default='workplace')*
