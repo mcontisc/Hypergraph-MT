@@ -8,8 +8,7 @@ If you use this code please cite this [article](website) (_preprint_).
 
 This is a probabilistic generative model that infers overlapping communities in hypergraphs. Thus, it is a mixed-membership model where we assume an assortative structure. The  inference is performed using an efficient expectation-maximization (EM) algorithm that exploits the sparsity of the network, leading to an efficient and scalable implementation.
 
-This model aims to generalize the method [MultiTensor](https://github.com/cdebacco/MultiTensor) presented in [De Bacco et al. (2017)](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.95.042317). It is a mixed-membership model for graphs that models each
-entry of the adjacency matrix with a Poisson distribution, whose latent variables are membership and affinity matrices.
+Notice that when applied to graphs (considering only pairwise interactions), Hypergraph-MT reduces to [MultiTensor](https://github.com/cdebacco/MultiTensor) with assortative affinity matrix, as presented in [De Bacco et al. (2017)](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.95.042317). 
 
 Copyright (c) 2022 [author list]
 
