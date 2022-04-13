@@ -2,15 +2,16 @@
 
 Python implementation of Hypergraph-MT algorithm described in:
 
-[1] Authors (year). _title_, arXiv:.
+[1] Contisciani M., Battiston F., and De Bacco C. (2022). _Principled inference of hyperedges and overlapping communities in hypergraphs_, arXiv:
+2204.05646.
 
-If you use this code please cite this [article](website) (_preprint_).     
+If you use this code please cite this [article](https://arxiv.org/abs/2204.05646) (_preprint_).     
 
 This is a probabilistic generative model that infers overlapping communities in hypergraphs. Thus, it is a mixed-membership model where we assume an assortative structure. The  inference is performed using an efficient expectation-maximization (EM) algorithm that exploits the sparsity of the network, leading to an efficient and scalable implementation.
 
-Notice that when applied to graphs (considering only pairwise interactions), Hypergraph-MT reduces to [MultiTensor](https://github.com/cdebacco/MultiTensor) with assortative affinity matrix, as presented in [De Bacco et al. (2017)](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.95.042317). 
+Notice that when applied to graphs (considering only pairwise interactions), Hypergraph-MT reduces to [MultiTensor](https://github.com/cdebacco/MultiTensor) with assortative affinity matrices, as presented in [De Bacco et al. (2017)](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.95.042317). 
 
-Copyright (c) 2022 [author list]
+Copyright (c) 2022 [Martina Contisciani](https://www.is.mpg.de/person/mcontisciani) and [Caterina De Bacco](http://cdebacco.com).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
