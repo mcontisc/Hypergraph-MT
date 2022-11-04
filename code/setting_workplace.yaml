@@ -1,20 +1,12 @@
-rseed : 10
-inf : 10000000000
-err_max : 0.00001
-err : 0.001
-N_real : 5
-tolerance : 0.1
-decision : 5
-max_iter : 500
-fix_communities : False
-fix_w : False
-verbose : True
-initialization : 0
-constraintU : False
-out_inference : True
-out_folder : '../data/output/'
-end_file : '_workplace'
-gammaU : 0
-gammaW : 0
-plot_loglik : False
-in_parameters : '../data/input/theta.npz'
+seed: 10
+constraintU: False
+fix_communities: False
+fix_w: False
+gammaU: 0
+gammaW: 0
+initialize_u: null
+initialize_w: null
+out_inference: True
+out_folder: "../data/output/"
+end_file: "_workplace"
+plot_loglik: False

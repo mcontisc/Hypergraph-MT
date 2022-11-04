@@ -49,10 +49,12 @@ def prob_greater_zero_Poisson(lmbd):
     """
         P(A>0) for a Poisson with mean lmbd.
     """
-    return 1. - np.exp(-lmbd)
+    return 1.0 - np.exp(-lmbd)
 
 
-def calculate_AUC(hye, u, w, N, mask=None, n_comparisons=1000, rseed=10, proba=False, pairwise=False):
+def calculate_AUC(
+    hye, u, w, N, mask=None, n_comparisons=1000, rseed=10, proba=False, pairwise=False
+):
     """
         Return the AUC of the hyperedge prediction. It represents the probability that a randomly chosen missing
         connection (true positive) is given a higher score by our method than a randomly chosen set of
@@ -110,7 +112,9 @@ def calculate_AUC(hye, u, w, N, mask=None, n_comparisons=1000, rseed=10, proba=F
                 R1.append(prob_greater_zero_Poisson(M))
         else:
             pairs = combinations(el, 2)
-            M = np.array([(np.prod(u[np.array(e)], axis=0) * w[0]).sum() for e in pairs])
+            M = np.array(
+                [(np.prod(u[np.array(e)], axis=0) * w[0]).sum() for e in pairs]
+            )
             R1.append(np.prod(prob_greater_zero_Poisson(M)))
 
     R1 = np.array(R1)
@@ -129,7 +133,9 @@ def calculate_AUC(hye, u, w, N, mask=None, n_comparisons=1000, rseed=10, proba=F
                 R0.append(prob_greater_zero_Poisson(M))
         else:
             pairs = combinations(el, 2)
-            M = np.array([(np.prod(u[np.array(e)], axis=0) * w[0]).sum() for e in pairs])
+            M = np.array(
+                [(np.prod(u[np.array(e)], axis=0) * w[0]).sum() for e in pairs]
+            )
             R0.append(np.prod(prob_greater_zero_Poisson(M)))
 
     R0 = np.array(R0)
@@ -167,7 +173,7 @@ def shuffle_indices(n_samples, rng):
     return indices
 
 
-def extract_mask_kfold(indices, fold=0, NFold=5, out_mask=False, dataset=''):
+def extract_mask_kfold(indices, fold=0, NFold=5, out_mask=False, dataset=""):
     """
         Return the mask for selecting the held out set.
 
@@ -192,16 +198,16 @@ def extract_mask_kfold(indices, fold=0, NFold=5, out_mask=False, dataset=''):
 
     n_samples = indices.shape[0]
     mask = np.ones(n_samples, dtype=bool)
-    test = indices[fold * (n_samples // NFold):(fold + 1) * (n_samples // NFold)]
+    test = indices[fold * (n_samples // NFold) : (fold + 1) * (n_samples // NFold)]
     mask[test] = 0
 
     if out_mask:
-        out_folder_mask = '../data/input/CV_masks/'
+        out_folder_mask = "../data/input/CV_masks/"
         if not os.path.exists(out_folder_mask):
             os.makedirs(out_folder_mask)
-        outmask = out_folder_mask + f'mask_{dataset}_f{fold}.pkl'
-        print('Mask saved in ', outmask)
-        with open(outmask, 'wb') as f:
+        outmask = out_folder_mask + f"mask_{dataset}_f{fold}.pkl"
+        print("Mask saved in ", outmask)
+        with open(outmask, "wb") as f:
             pickle.dump(np.where(mask > 0), f)
 
     return mask

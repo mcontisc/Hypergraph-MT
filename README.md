@@ -25,8 +25,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 - `data/output` : Contains some results.
 
 ## Requirements
-The project has been developed using Python 3.7 with the packages contained in *requirements.txt*. We suggest to create a conda environment with
-`conda create --name Hypergraph-MT python=3.7.9 --no-default-packages`, activate it with `conda activate Hypergraph-MT`, and install all the dependencies by running (inside `Hypergraph-MT` directory):
+In order to be able to run the code, you need to install the packages contained in *requirements.txt*. We suggest to create a conda environment with
+`conda create --name Hypergraph-MT --no-default-packages`, activate it with `conda activate Hypergraph-MT`, and install all the dependencies by running (inside `Hypergraph-MT` directory):
 
 ```bash
 pip install -r requirements.txt

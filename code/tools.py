@@ -30,7 +30,7 @@ def HyG2Net(A, hye):
         comb = combinations(hye, 2)
         for e in list(comb):
             if e in G.edges():
-                G.edges[e]['weight'] += A
+                G.edges[e]["weight"] += A
             else:
                 G.add_edge(*e, weight=A, d=size)
     else:
@@ -38,14 +38,14 @@ def HyG2Net(A, hye):
             size = len(e)
             if size == 2:
                 if e in G.edges():
-                    G.edges[e]['weight'] += A[eid]
+                    G.edges[e]["weight"] += A[eid]
                 else:
                     G.add_edge(*e, weight=A[eid], d=2)
             elif size > 2:
                 comb = combinations(e, 2)
                 for e1 in list(comb):
                     if e1 in G.edges():
-                        G.edges[e1]['weight'] += A[eid]
+                        G.edges[e1]["weight"] += A[eid]
                     else:
                         G.add_edge(*e1, weight=A[eid], d=size)
 
@@ -78,9 +78,11 @@ def extract_input_pairwise(A, hye, N):
     Gtmp = HyG2Net(A, hye)
 
     hye2 = [(e[0], e[1]) for e in list(Gtmp.edges())]
-    A2 = np.array([d['weight'] for u, v, d in list(Gtmp.edges(data=True))]).astype('int')
+    A2 = np.array([d["weight"] for u, v, d in list(Gtmp.edges(data=True))]).astype(
+        "int"
+    )
 
-    B2 = np.zeros((N, A2.shape[0])).astype('int')
+    B2 = np.zeros((N, A2.shape[0])).astype("int")
     for eid, e in enumerate(hye2):
         B2[np.array(e), eid] = A2[eid]
 
@@ -102,8 +104,8 @@ def normalize_nonzero_membership(u):
     """
 
     den1 = u.sum(axis=1, keepdims=True)
-    nzz = den1 == 0.
-    den1[nzz] = 1.
+    nzz = den1 == 0.0
+    den1[nzz] = 1.0
 
     return u / den1
 
@@ -134,7 +136,7 @@ def CalculatePermutation(U_infer, U0):
     for t in range(RANK):
         # Find the max element in the remaining sub-matrix,
         # the one with rows and columns removed from previous iterations
-        max_entry = 0.
+        max_entry = 0.0
         c_index = 0
         r_index = 0
         for i in range(RANK):
@@ -180,13 +182,13 @@ def cosine_similarity(U_infer, U0):
     U_infer_tmp = np.dot(U_infer, P)  # permute inferred matrix
     U0_tmp = U0.copy()
     N, K = U0.shape
-    cosine_sim = 0.
+    cosine_sim = 0.0
     norm_inf = np.linalg.norm(U_infer_tmp, axis=1)
     norm0 = np.linalg.norm(U0_tmp, axis=1)
     for i in range(N):
-        if norm_inf[i] > 0.:
+        if norm_inf[i] > 0.0:
             U_infer_tmp[i, :] = U_infer_tmp[i, :] / norm_inf[i]
-        if norm0[i] > 0.:
+        if norm0[i] > 0.0:
             U0_tmp[i, :] = U0_tmp[i, :] / norm0[i]
 
     for k in range(K):

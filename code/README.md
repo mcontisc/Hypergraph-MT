@@ -16,7 +16,7 @@ THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
 ## Files
-- `HyMT` : Class definition of Hypergraph-MT, the algorithm to perform community detection in hypergraphs. 
+- `HyMT` : Folder that contains the definition of Hypergraph-MT (`model.py`), and other utils files. 
 - `main.py` : General version of the algorithm. It performs the inference in the given dataset, and it infers the latent variables as community memberships and affinity matrix. It also gives the option to run two baselines: run the model on the graph obtained by clique expansions (Graph-MT), and run the model on the graph given by the subset of pairwise interactions (Pairs-MT).
 - `main_cv.py` : Code to perform a k-fold cross-validation procedure, for the hyperedge prediction task. It returns a *csv* file summarizing the AUC over all folds. 
 - `tools.py` : Contains non-class functions for handling the data and analysing the results.

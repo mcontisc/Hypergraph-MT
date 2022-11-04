@@ -6,8 +6,11 @@ import yaml
 import os
 import time
 
-import HyMT as hymt
 import tools as tl
+
+import sys
+sys.path.append('HyMT')
+import HyMT as hymt
 
 
 def main():
@@ -73,8 +76,8 @@ def main():
         print('### Run Hypergraph-MT ###')
     if conf_inf['out_inference']:
         conf_inf['end_file'] = init_end_file + '_HyMT'
-    model = hymt.HyMT(**conf_inf)
-    _ = model.fit(A[hyL2], hye[hyL2], B[:, hyL2], K=K)
+    model = hymt.model.HyMT()
+    _ = model.fit(A[hyL2], hye[hyL2], B[:, hyL2], K=K, **conf_inf)
     if verbose:
         print(f'\nTime elapsed: {np.round(time.time() - time_HyMT, 2)} seconds.')
 
@@ -86,8 +89,8 @@ def main():
         if conf_inf['out_inference']:
             conf_inf['end_file'] = init_end_file + '_GrMT'
         A2, hye2, B2 = tl.extract_input_pairwise(A[hyL2], hye[hyL2], N)  # get the graph by clique expansions
-        model2 = hymt.HyMT(**conf_inf)
-        _ = model2.fit(A2, hye2, B2, K=K)
+        model2 = hymt.model.HyMT()
+        _ = model2.fit(A2, hye2, B2, K=K, **conf_inf)
         if verbose:
             print(f'\nTime elapsed: {np.round(time.time() - time_GrMT, 2)} seconds.')
 
@@ -99,8 +102,8 @@ def main():
             conf_inf['end_file'] = init_end_file + '_PaMT'
         mask_pairs = np.array([False if len(e) != 2 else True for e in hye])  # keep only the subset of pairs
         if sum(mask_pairs) > 0:
-            model3 = hymt.HyMT(**conf_inf)
-            _ = model3.fit(A[mask_pairs], hye[mask_pairs], B[:, mask_pairs], K=K)
+            model3 = hymt.model.HyMT()
+            _ = model3.fit(A[mask_pairs], hye[mask_pairs], B[:, mask_pairs], K=K, **conf_inf)
             if verbose:
                 print(f'\nTime elapsed: {np.round(time.time() - time_PaMT, 2)} seconds.')
 

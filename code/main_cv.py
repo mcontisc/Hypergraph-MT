@@ -9,9 +9,12 @@ import os
 import csv
 import time
 
-import HyMT as hymt
 import tools as tl
 import cv_functions as cvfun
+
+import sys
+sys.path.append('HyMT')
+import HyMT as hymt
 
 algos = ['HyMT', 'GrMT', 'HyMTpairs', 'GrMTpairs', 'PaMT']
 
@@ -96,7 +99,7 @@ def main_cv():
         else:
             init_end_file = conf_inf['end_file'] + f'_cU{constraintU}'
 
-    prng = np.random.RandomState(seed=conf_inf['rseed'])  # set seed random number generator
+    prng = np.random.RandomState(seed=conf_inf['seed'])  # set seed random number generator
     rseed = prng.randint(1000)
 
     # save the results
@@ -120,7 +123,7 @@ def main_cv():
         if verbose:
             print(f'Results will be saved in: {out_file}')
 
-    results = {'K': K, 'seed0': conf_inf['rseed']}
+    results = {'K': K, 'seed0': conf_inf['seed']}
 
     '''
     Cycle over folds
@@ -150,8 +153,8 @@ def main_cv():
             print('### Run Hypergraph-MT ###')
         if args.out_inference:
             conf_inf['end_file'] = init_end_file + '_HyMT_f' + str(fold)
-        model = hymt.HyMT(**conf_inf)
-        u, w, maxL = model.fit(AD[mask_train], hyeD[mask_train], BD[:, mask_train], K=K)
+        model = hymt.model.HyMT()
+        u, w, maxL = model.fit(AD[mask_train], hyeD[mask_train], BD[:, mask_train], K=K, **conf_inf)
 
         if bool(args.baselines):
             """ Baseline1: Run the model on the graph obtained by clique expansions (Graph-MT) """
@@ -160,8 +163,8 @@ def main_cv():
             if args.out_inference:
                 conf_inf['end_file'] = init_end_file + '_GrMT_f' + str(fold)
             A2, hye2, B2 = tl.extract_input_pairwise(AD[mask_train], hyeD[mask_train], N)
-            model2 = hymt.HyMT(**conf_inf)
-            u2, w2, maxL2 = model2.fit(A2, hye2, B2, K=K)
+            model2 = hymt.model.HyMT()
+            u2, w2, maxL2 = model2.fit(A2, hye2, B2, K=K, **conf_inf)
 
             if sum(mask_pairs_train) > 0:
                 """ Baseline2: Run the model on the graph given by the subset of pairwise interactions (Pairs-MT) """
@@ -169,8 +172,9 @@ def main_cv():
                     print('- - - Run baseline only pairs - - -')
                 if args.out_inference:
                     conf_inf['end_file'] = init_end_file + '_PaMT_f' + str(fold)
-                model3 = hymt.HyMT(**conf_inf)
-                u3, w3, maxL3 = model3.fit(AD[mask_pairs_train], hyeD[mask_pairs_train], BD[:, mask_pairs_train], K=K)
+                model3 = hymt.model.HyMT()
+                u3, w3, maxL3 = model3.fit(AD[mask_pairs_train], hyeD[mask_pairs_train], BD[:, mask_pairs_train], K=K,
+                                           **conf_inf)
 
         """ Output performance results """
         # all hyperedges
