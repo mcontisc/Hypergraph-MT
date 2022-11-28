@@ -2,10 +2,9 @@
 
 Python implementation of Hypergraph-MT algorithm described in:
 
-[1] Contisciani M., Battiston F., and De Bacco C. (2022). _Principled inference of hyperedges and overlapping communities in hypergraphs_, arXiv:
-2204.05646.
+[1] Contisciani M., Battiston F., and De Bacco C. (2022). [_Principled inference of hyperedges and overlapping communities in hypergraphs_](https://rdcu.be/c0qdd), Nature Communications, 13:7229, 2022.
 
-If you use this code please cite this [article](https://arxiv.org/abs/2204.05646) (_preprint_).     
+If you use this code please cite [[1]](https://www.nature.com/articles/s41467-022-34714-7#citeas). Details can be found in the [_published version_](https://doi.org/10.1038/s41467-022-34714-7) or in the [_preprint_](https://arxiv.org/abs/2204.05646).     
 
 This is a probabilistic generative model that infers overlapping communities in hypergraphs. Thus, it is a mixed-membership model where we assume an assortative structure. The  inference is performed using an efficient expectation-maximization (EM) algorithm that exploits the sparsity of the network, leading to an efficient and scalable implementation.
 
