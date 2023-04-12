@@ -97,6 +97,8 @@ class HySC:
 
         invDE = np.diag(1.0 / self.edge_degree)
         invDV2 = np.diag(np.sqrt(1.0 / self.node_degree))
+        # set to zero for isolated nodes
+        invDV2 = np.diag(np.where(invDV2, 0, invDV2))
         if weighted:
             HT = self.B.T
             self.L = np.eye(self.N) - invDV2 @ self.B @ invDE @ HT @ invDV2
