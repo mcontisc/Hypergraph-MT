@@ -21,7 +21,6 @@ def main():
     p.add_argument('-v', '--verbose', type=int, default=1)  # flag to print details
     p.add_argument('-b', '--baselines', type=int, default=1)  # flag to run the baselines
     p.add_argument('-D', '--maxD', type=int, default=None)  # threshold for the highest degree (size hyperedge) to keep
-    p.add_argument('-U', '--constraintU', type=int, default=0)  # flag to normalize u such that every row sums to 1
     args = p.parse_args()
 
     verbose = bool(args.verbose)
@@ -48,12 +47,11 @@ def main():
     Model parameters
     '''
     K = args.K
-    constraintU = bool(args.constraintU)
 
     # setting to run the algorithm
     with open(f'setting_{dataset}.yaml') as f:
         conf_inf = yaml.load(f, Loader=yaml.FullLoader)
-    conf_inf['constraintU'] = constraintU
+    constraintU = bool(conf_inf['constraintU'])
 
     if conf_inf['out_inference']:
         # folder to store the inferred parameters

@@ -10,7 +10,7 @@ This is a probabilistic generative model that infers overlapping communities in 
 
 Notice that when applied to graphs (considering only pairwise interactions), Hypergraph-MT reduces to [MultiTensor](https://github.com/cdebacco/MultiTensor) with assortative affinity matrices, as presented in [De Bacco et al. (2017)](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.95.042317). 
 
-Copyright (c) 2022 [Martina Contisciani](https://www.is.mpg.de/person/mcontisciani) and [Caterina De Bacco](http://cdebacco.com).
+Copyright (c) 2022 [Martina Contisciani](https://martinacontisciani.wixsite.com/mcontisciani) and [Caterina De Bacco](http://cdebacco.com).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -24,7 +24,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 - `data/output` : Contains some results.
 
 ## Requirements
-In order to be able to run the code, you need to install the packages contained in *requirements.txt*. We suggest to create a conda environment with
+In order to be able to run the code, you need to install the packages contained in `requirements.txt`. We suggest to create a conda environment with
 `conda create --name Hypergraph-MT --no-default-packages`, activate it with `conda activate Hypergraph-MT`, and install all the dependencies by running (inside `Hypergraph-MT` directory):
 
 ```bash
@@ -50,22 +50,36 @@ See the demo [jupyter notebook](https://github.com/mcontisc/Hypergraph-MT/blob/m
 - **-v** : Flag to print details, *(default=1)*
 - **-b** : Flag to run the baselines, *(default=1)*
 - **-D** : Threshold for the highest degree (size hyperedge) to keep, *(default=None')*
-- **-U** : Flag to normalize u such that every row sums to 1, *(default=0)*
 
-You can find a list by running (inside `code` directory): 
+You can find this list by running (inside `code` directory): 
 
 ```bash
 python main.py --help
 ```
 
+### Setting file
+In addition to the listed parameters, `main.py` and `main_cv.py` take in input a _yaml_ file. This `setting_<dataset>.yaml` file contains additional parameters to pass to the model, that are:
+- **seed** : Number to set the seed of the random number generator
+- **constraintU** : Flag to normalize the community matrix $u$ such that every row sums to 1. 
+- **fix_communities** : Flag to set the communities $u$ as the input file and fix them during the inference.
+- **fix_w** : Flag to set the affinity matrix $w$ as the input file and fix it during the inference.
+- **gammaU** : Constant to regularize the communities $u$.
+- **gammaW** : Constant to regularize the affinity matrix $w$.
+- **initialize_u** : Option to initialize the communities $u$ different from random.
+- **initialize_w**: Option to initialize the affinity matrix $w$ different from random.
+- **out_inference** : Flag to output the inference results.
+- **out_folder** : Path of the output folder.
+- **end_file** : Suffix of the output file.
+- **plot_loglik** : Flag to plot the log-likelihood.
+
 ## Input format
 The network should be stored in a *.npz* file, containing:
 
-- **A** : Array of length E, containing the weights of the hyperedges
-- **B** : Incidence matrix of dimension N x E
-- **hye** : Array of length E, containing the sets of hyperedges (as tuples)
+- **A** : Array of length $E$, containing the weights of the hyperedges
+- **B** : Incidence matrix of dimension $N \times E$
+- **hye** : Array of length $E$, containing the sets of hyperedges (as tuples)
 
-where N is the number of nodes, and E is the number of hyperedges.
+where $N$ is the number of nodes, and $E$ is the number of hyperedges.
 
 ## Output
 The algorithm returns a compressed file inside the `data/output` folder. To load and print the membership matrix:
@@ -76,4 +90,4 @@ theta = np.load('theta_file_name.npz')
 print(theta['u'])
 ```
 
-_theta_ contains the N x K-dimensional membership matrix **u** *('u')*, the D x K-dimensional affinity matrix **w** *('w')*, the total number of iterations *('max_it')*, the value of the maximum log-likelihood *('maxL')*, and the list of non-isolated nodes *('non_isolates')*.  
+**theta** contains the $N \times K$-dimensional membership matrix $u$ ('u'), the $D \times K$-dimensional affinity matrix $w$ ('w'), the total number of iterations ('max_it'), the value of the maximum log-likelihood ('maxL'), and the list of non-isolated nodes ('non_isolates').  

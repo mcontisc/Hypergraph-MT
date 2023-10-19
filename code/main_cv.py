@@ -28,12 +28,10 @@ def main_cv():
     p.add_argument('-S', '--NComparisons', type=int, default=1e3)  # number of comparisons in the AUC computation
     p.add_argument('-m', '--out_mask', type=bool, default=False)  # flag to output the masks
     p.add_argument('-s', '--out_results', type=bool, default=True)  # flag to output the results in a csv file
-    p.add_argument('-i', '--out_inference', type=bool, default=False)  # flag to output the inferred parameters
-    p.add_argument('-o', '--out_folder', type=str, default='../data/output/5-fold_cv/')  # path to store outputs
+    p.add_argument('-o', '--out_folder_cv', type=str, default='../data/output/5-fold_cv/')  # path to store cv outputs
     p.add_argument('-v', '--verbose', type=int, default=1)  # flag to print details
     p.add_argument('-b', '--baselines', type=int, default=1)  # flag to run the baselines
     p.add_argument('-D', '--maxD', type=int, default=None)  # threshold for the highest degree (size hyper-edge)
-    p.add_argument('-U', '--constraintU', type=int, default=0)  # flag to normalize u such that every row sums to 1
     args = p.parse_args()
 
     verbose = bool(args.verbose)
@@ -71,7 +69,7 @@ def main_cv():
     n_comparisons = int(args.NComparisons)
     out_mask = args.out_mask
     out_results = args.out_results
-    out_folder = args.out_folder
+    out_folder = args.out_folder_cv
     if out_results:
         if not os.path.exists(out_folder):
             os.makedirs(out_folder)
@@ -80,15 +78,13 @@ def main_cv():
     Model parameters
     '''
     K = args.K
-    constraintU = bool(args.constraintU)
 
     # setting to run the algorithm
     with open(f'setting_{dataset}.yaml') as f:
         conf_inf = yaml.load(f, Loader=yaml.FullLoader)
-    conf_inf['constraintU'] = constraintU
-    conf_inf['out_inference'] = args.out_inference
+    constraintU = bool(conf_inf['constraintU'])
 
-    if args.out_inference:
+    if conf_inf['out_inference']:
         # folder to store the inferred parameters
         if not os.path.exists(conf_inf['out_folder']):
             os.makedirs(conf_inf['out_folder'])
@@ -151,7 +147,7 @@ def main_cv():
         """ Run Hypergraph-MT """
         if verbose:
             print('### Run Hypergraph-MT ###')
-        if args.out_inference:
+        if conf_inf['out_inference']:
             conf_inf['end_file'] = init_end_file + '_HyMT_f' + str(fold)
         model = hymt.model.HyMT()
         u, w, maxL = model.fit(AD[mask_train], hyeD[mask_train], BD[:, mask_train], K=K, **conf_inf)
@@ -160,7 +156,7 @@ def main_cv():
             """ Baseline1: Run the model on the graph obtained by clique expansions (Graph-MT) """
             if verbose:
                 print('\n### Run Graph-MT ###')
-            if args.out_inference:
+            if conf_inf['out_inference']:
                 conf_inf['end_file'] = init_end_file + '_GrMT_f' + str(fold)
             A2, hye2, B2 = tl.extract_input_pairwise(AD[mask_train], hyeD[mask_train], N)
             model2 = hymt.model.HyMT()
@@ -170,7 +166,7 @@ def main_cv():
                 """ Baseline2: Run the model on the graph given by the subset of pairwise interactions (Pairs-MT) """
                 if verbose:
                     print('- - - Run baseline only pairs - - -')
-                if args.out_inference:
+                if conf_inf['out_inference']:
                     conf_inf['end_file'] = init_end_file + '_PaMT_f' + str(fold)
                 model3 = hymt.model.HyMT()
                 u3, w3, maxL3 = model3.fit(AD[mask_pairs_train], hyeD[mask_pairs_train], BD[:, mask_pairs_train], K=K,
