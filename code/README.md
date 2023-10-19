@@ -84,7 +84,7 @@ print(theta['u'])
 
 **theta** contains the $N \times K$-dimensional membership matrix $u$ ('u'), the $D \times K$-dimensional affinity matrix $w$ ('w'), the total number of iterations ('max_it'), the value of the maximum log-likelihood ('maxL'), and the list of non-isolated nodes ('non_isolates').  
 
-When you run `main.py` with the parameter `baselines=1` and `out_inference=True`, then the algorithm will output three files, corresponding to the three different models:
+When you run `main.py` with parameters `baselines=1` and `out_inference=True`, then the algorithm will output three files, corresponding to the three different models:
 - **\_HyMT** is the one by using Hypergraph-MT
 - **\_GrMT** is the one by using Graph-MT
 - **\_PaMT** is the one by using Pairs-MT
